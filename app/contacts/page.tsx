@@ -26,7 +26,8 @@ import {
   MoreHorizontal,
   UserCheck,
   Calendar,
-  Clock
+  Clock,
+  X
 } from 'lucide-react';
 
 interface Contact {
