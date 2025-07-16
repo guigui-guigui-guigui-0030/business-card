@@ -40,16 +40,21 @@ import {
   Phone
 } from 'lucide-react';
 
+type NotificationKey = 'email' | 'push' | 'sms' | 'marketing';
+type PrivacyKey = 'showEmail' | 'showPhone' | 'allowDirectMessage' | 'showOnlineStatus';
+
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState({
+  const [notifications, setNotifications] = useState<Record<NotificationKey, boolean>>({
     email: true,
     push: true,
     sms: false,
     marketing: false
   });
-  const [privacy, setPrivacy] = useState({
+  const [privacy, setPrivacy] = useState<{
+    profileVisibility: string;
+  } & Record<PrivacyKey, boolean>>({
     profileVisibility: 'public',
     showEmail: false,
     showPhone: false,
@@ -247,13 +252,13 @@ export default function SettingsPage() {
                           </div>
                         </div>
                         <button
-                          onClick={() => setNotifications(prev => ({ ...prev, [item.key]: !prev[item.key] }))}
+                          onClick={() => setNotifications(prev => ({ ...prev, [item.key as NotificationKey]: !prev[item.key as NotificationKey] }))}
                           className={`w-12 h-6 rounded-full transition-colors ${
-                            notifications[item.key] ? 'bg-blue-600' : 'bg-gray-300'
+                            notifications[item.key as NotificationKey] ? 'bg-blue-600' : 'bg-gray-300'
                           }`}
                         >
                           <div className={`w-5 h-5 bg-white rounded-full shadow-md transition-transform ${
-                            notifications[item.key] ? 'translate-x-6' : 'translate-x-0.5'
+                            notifications[item.key as NotificationKey] ? 'translate-x-6' : 'translate-x-0.5'
                           }`} />
                         </button>
                       </div>
@@ -334,13 +339,13 @@ export default function SettingsPage() {
                               <span className="font-medium">{item.label}</span>
                             </div>
                             <button
-                              onClick={() => setPrivacy(prev => ({ ...prev, [item.key]: !prev[item.key] }))}
+                              onClick={() => setPrivacy(prev => ({ ...prev, [item.key as PrivacyKey]: !prev[item.key as PrivacyKey] }))}
                               className={`w-12 h-6 rounded-full transition-colors ${
-                                privacy[item.key] ? 'bg-green-600' : 'bg-gray-300'
+                                privacy[item.key as PrivacyKey] ? 'bg-green-600' : 'bg-gray-300'
                               }`}
                             >
                               <div className={`w-5 h-5 bg-white rounded-full shadow-md transition-transform ${
-                                privacy[item.key] ? 'translate-x-6' : 'translate-x-0.5'
+                                privacy[item.key as PrivacyKey] ? 'translate-x-6' : 'translate-x-0.5'
                               }`} />
                             </button>
                           </div>
